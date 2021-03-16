@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "lint:fix": "eslint src/**/*.js --fix",
+    "babel-node": "babel-node --presets='@babel/preset-env'",
     "task1": "nodemon src/task-1.js",
-    "task2": "nodemon src/task-2.js"
+    "task2": "nodemon --exec babel-node --presets=@babel/preset-env -- src/task-2.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,9 @@
   },
   "homepage": "https://github.com/AndrewSmir/NodeJsCourse#readme",
   "devDependencies": {
+    "@babel/core": "^7.13.10",
+    "@babel/node": "^7.13.10",
+    "@babel/preset-env": "^7.13.10",
     "eslint": "^7.22.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^3.3.1",
