@@ -7,7 +7,10 @@
     "lint:fix": "eslint src/**/*.js --fix",
     "babel-node": "babel-node --presets='@babel/preset-env'",
     "task1": "nodemon --exec babel-node --presets=@babel/preset-env -- src/task-1.js",
-    "task2": "nodemon --exec babel-node --presets=@babel/preset-env -- src/task-2.js"
+    "task2": "nodemon --exec babel-node --presets=@babel/preset-env -- src/task-2.js",
+    "tsc-check": "tsc --noEmit",
+    "start": "ts-node src/app.ts",
+    "dev": "nodemon -e ts  --exec \"npm run start\""
   },
   "repository": {
     "type": "git",
@@ -24,11 +27,16 @@
     "@babel/core": "^7.13.10",
     "@babel/node": "^7.13.10",
     "@babel/preset-env": "^7.13.10",
+    "@babel/preset-typescript": "^7.13.0",
+    "@typescript-eslint/eslint-plugin": "^4.18.0",
+    "@typescript-eslint/parser": "^4.18.0",
     "eslint": "^7.22.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^3.3.1",
     "nodemon": "^2.0.7",
-    "prettier": "^2.2.1"
+    "prettier": "^2.2.1",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.3"
   },
   "dependencies": {
     "csvtojson": "^2.0.10"
