@@ -10,7 +10,8 @@
     "task2": "nodemon --exec babel-node --presets=@babel/preset-env -- src/module-1/task-2.js",
     "tsc-check": "tsc --noEmit",
     "start": "ts-node src/module-2/app.ts",
-    "dev": "nodemon -e ts  --exec \"npm run start\""
+    "dev": "nodemon -e ts  --exec \"npm run start\"",
+    "test": "echo to do tests"
   },
   "repository": {
     "type": "git",
