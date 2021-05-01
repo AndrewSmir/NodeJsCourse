@@ -18,8 +18,12 @@ interface IUserService extends ICRUDService<User>, IPaginatedService<User> {}
 
 class UserService implements IUserService {
   @Validate(userSchema)
-  public async create({ login, password, age }: Omit<User, 'id' | 'isDeleted'>): Promise<User> {
-    return userRepositoryIns.create(new User(login, password, age));
+  public async create({
+    login,
+    password,
+    age,
+  }: Pick<User, 'login' | 'password' | 'age'>): Promise<User> {
+    return userRepositoryIns.create(new User({ login, password, age }));
   }
 
   public async delete(id: string): Promise<User> {
@@ -31,7 +35,9 @@ class UserService implements IUserService {
   }
 
   @Validate(userSchema)
-  public async update(data: User): Promise<User> {
+  public async update(
+    data: Pick<User, 'id' | 'login' | 'password' | 'age' | 'isDeleted'>,
+  ): Promise<User> {
     return userRepositoryIns.update(data);
   }
 

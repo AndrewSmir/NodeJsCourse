@@ -1,8 +1,8 @@
 import { Request, Response, Router } from 'express';
-import { User } from '../types/user';
 import { userService } from '../services/user-service';
 import { USERS_PATH } from '../constants';
 import { Delete, Get, Post, Put, TryCatch } from '../decorators';
+import { User } from '../models/user';
 
 export const userRouter = Router();
 

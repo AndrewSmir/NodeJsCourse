@@ -1,5 +1,4 @@
 import { IEntity, User } from '../models/user';
-import { SeqUser } from '../models/seqUser';
 
 interface IGenericCRUDRepository<T extends IEntity> {
   create(user: T): Promise<T>;
@@ -16,7 +15,7 @@ interface IUserRepository extends IGenericCRUDRepository<User>, IPaginatedReposi
 
 export class UserRepository implements IUserRepository {
   public async get(id: string): Promise<User> {
-    const user = await SeqUser.findOne({
+    const user = await User.findOne({
       where: {
         id,
       },
@@ -24,13 +23,13 @@ export class UserRepository implements IUserRepository {
     return user ? Promise.resolve(user) : Promise.reject({ message: 'User not found' });
   }
 
-  public async create(user: User): Promise<User> {
-    const newUser = await SeqUser.create(user);
+  public async create({ login, password, age }: User): Promise<User> {
+    const newUser = await User.create({ login, password, age });
     return newUser;
   }
 
   public async delete(id: string): Promise<User> {
-    const user = await SeqUser.update(
+    const user = await User.update(
       { isDeleted: true },
       {
         where: {
@@ -42,8 +41,13 @@ export class UserRepository implements IUserRepository {
     return user[1][0] ? Promise.resolve(user[1][0]) : Promise.reject({ message: 'User not found' });
   }
 
-  public async update({ age, id, login, password }: Omit<User, 'isDeleted'>): Promise<User> {
-    const user = await SeqUser.update(
+  public async update({
+    age,
+    id,
+    login,
+    password,
+  }: Pick<User, 'id' | 'login' | 'password' | 'age'>): Promise<User> {
+    const user = await User.update(
       { login, password, age },
       {
         where: {
@@ -56,7 +60,7 @@ export class UserRepository implements IUserRepository {
   }
 
   public async getList(limit: number): Promise<User[]> {
-    const users = await SeqUser.findAll();
+    const users = await User.findAll();
     return users.sort((a, b) => (a.login > b.login ? 1 : -1)).slice(0, limit);
   }
 }
