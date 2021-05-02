@@ -1,11 +1,5 @@
-import { IEntity, User } from '../models/user';
-
-interface IGenericCRUDRepository<T extends IEntity> {
-  create(user: T): Promise<T>;
-  get(id: string): Promise<T>;
-  update(user: Omit<T, 'isDeleted'>): Promise<T>;
-  delete(id: string): Promise<T>;
-}
+import { IEntity, IGenericCRUDRepository } from '../interfaces';
+import { User } from '../models/user';
 
 interface IPaginatedRepository<T extends IEntity> {
   getList(limit: number): Promise<T[]>;
@@ -48,7 +42,7 @@ export class UserRepository implements IUserRepository {
     password,
   }: Pick<User, 'id' | 'login' | 'password' | 'age'>): Promise<User> {
     const user = await User.update(
-      { login, password, age },
+      { login, password, age, id },
       {
         where: {
           id,

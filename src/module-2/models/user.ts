@@ -1,9 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
 import { sequelize } from '../data-access/sequelize';
-
-export interface IEntity {
-  readonly id: string;
-}
+import { IEntity } from '../interfaces';
 
 interface IUser extends IEntity {
   login: string;

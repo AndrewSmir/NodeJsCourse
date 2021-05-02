@@ -1,7 +1,8 @@
-import { IEntity, User } from '../models/user';
+import { User } from '../models/user';
 import { userRepositoryIns } from '../repositories/user-repository';
 import { Validate } from '../decorators/validation';
 import { userSchema } from '../validation-rules/user-validation-schema';
+import { IEntity } from '../interfaces';
 
 interface ICRUDService<T extends IEntity> {
   get(id: string): Promise<T>;
