@@ -1,6 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import { sequelize } from '../data-access/sequelize';
 import { IEntity } from '../interfaces';
+import { User } from './user';
 
 type TPermissions = 'READ' | 'WRIGHT' | 'DELETE' | 'SHARE' | 'UPLOAD_FILES';
 
@@ -40,5 +41,8 @@ Group.init(
     sequelize,
   },
 );
+
+Group.belongsToMany(User, { through: 'users-group' });
+User.belongsToMany(Group, { through: 'users-group' });
 
 //Group.sync({ force: true }).then(() => console.log('OK'));

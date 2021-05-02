@@ -56,6 +56,7 @@ export class GroupRepository implements IGroupRepository {
 
   public async getList(): Promise<Group[]> {
     const groups = await Group.findAll();
+    console.log(groups);
     return groups;
   }
 }

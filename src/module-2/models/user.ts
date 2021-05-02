@@ -1,6 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import { sequelize } from '../data-access/sequelize';
 import { IEntity } from '../interfaces';
+import { Group } from './group';
 
 interface IUser extends IEntity {
   login: string;
@@ -49,3 +50,5 @@ User.init(
     sequelize,
   },
 );
+
+//User.sync({ force: true }).then(() => console.log('OK'));
