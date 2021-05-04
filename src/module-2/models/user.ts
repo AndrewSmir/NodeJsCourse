@@ -1,17 +1,28 @@
-import { DataTypes, Model } from 'sequelize';
+import {
+  BelongsToManyAddAssociationMixin,
+  DataTypes,
+  HasManyGetAssociationsMixin,
+  Model,
+  Optional,
+  UUIDV4,
+} from 'sequelize';
 import { sequelize } from '../data-access/sequelize';
 import { IEntity } from '../interfaces';
 import { Group } from './group';
 
-interface IUser extends IEntity {
+interface IUserAttributes extends IEntity {
   login: string;
   password: string;
   age: number | null;
   isDeleted: boolean;
 }
 
-export class User extends Model<IUser, Omit<IUser, 'id' | 'isDeleted'>> implements IUser {
-  readonly id = Date.now().toString();
+type UserCreationAttributes = Optional<IUserAttributes, 'id' | 'isDeleted'>;
+
+export class User
+  extends Model<IUserAttributes, UserCreationAttributes>
+  implements IUserAttributes {
+  readonly id;
   public login;
   public password;
   public age;
@@ -21,7 +32,8 @@ export class User extends Model<IUser, Omit<IUser, 'id' | 'isDeleted'>> implemen
 User.init(
   {
     id: {
-      type: DataTypes.STRING,
+      type: DataTypes.UUID,
+      defaultValue: UUIDV4,
       primaryKey: true,
       unique: true,
     },
@@ -43,7 +55,6 @@ User.init(
     },
   },
   {
-    tableName: 'users',
     timestamps: false,
     createdAt: false,
     updatedAt: false,

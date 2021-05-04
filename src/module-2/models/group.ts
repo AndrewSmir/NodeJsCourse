@@ -1,25 +1,39 @@
-import { DataTypes, Model } from 'sequelize';
+import {
+  BelongsToManyAddAssociationsMixin,
+  BelongsToManyGetAssociationsMixin,
+  DataTypes,
+  Model,
+  Optional,
+  UUIDV4,
+} from 'sequelize';
 import { sequelize } from '../data-access/sequelize';
 import { IEntity } from '../interfaces';
 import { User } from './user';
 
 type TPermissions = 'READ' | 'WRIGHT' | 'DELETE' | 'SHARE' | 'UPLOAD_FILES';
 
-interface IGroup extends IEntity {
+interface IGroupAttributes extends IEntity {
   name: string;
   permissions: TPermissions[];
 }
 
-export class Group extends Model<IGroup, Omit<IGroup, 'id'>> implements IGroup {
-  readonly id = Date.now().toString();
+export type GroupCreationAttributes = Optional<IGroupAttributes, 'id'>;
+
+export class Group
+  extends Model<IGroupAttributes, GroupCreationAttributes>
+  implements IGroupAttributes {
+  readonly id;
   public name;
   public permissions;
+  public addUsers: BelongsToManyAddAssociationsMixin<User, string>;
+  public getUsers: BelongsToManyGetAssociationsMixin<User>;
 }
 
 Group.init(
   {
     id: {
-      type: DataTypes.STRING,
+      type: DataTypes.UUID,
+      defaultValue: UUIDV4,
       primaryKey: true,
       unique: true,
     },
@@ -33,7 +47,6 @@ Group.init(
     },
   },
   {
-    tableName: 'groups',
     timestamps: false,
     createdAt: false,
     updatedAt: false,
@@ -44,5 +57,3 @@ Group.init(
 
 Group.belongsToMany(User, { through: 'users-group' });
 User.belongsToMany(Group, { through: 'users-group' });
-
-//Group.sync({ force: true }).then(() => console.log('OK'));

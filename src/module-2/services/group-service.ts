@@ -32,6 +32,10 @@ class GroupService implements IGroupService {
   public async list(): Promise<Group[]> {
     return groupRepositoryIns.getList();
   }
+
+  public async addUsers(groupId: string, usersId: string[]): Promise<void> {
+    return groupRepositoryIns.addUsersToGroup(groupId, usersId);
+  }
 }
 
 export const groupService = new GroupService();

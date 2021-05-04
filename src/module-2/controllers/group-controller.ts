@@ -6,7 +6,7 @@ import { groupService } from '../services/group-service';
 
 export const groupRouter = Router();
 
-class UserController {
+class GroupController {
   @Get(GROUP_PATH, groupRouter)
   @TryCatch
   public async get(req: Request, res: Response<Group>): Promise<void> {
@@ -44,5 +44,12 @@ class UserController {
   public async list(req: Request, res: Response<Group[]>): Promise<void> {
     const group = await groupService.list();
     res.send(group);
+  }
+  @Post(`${GROUP_PATH}/add`, groupRouter)
+  @TryCatch
+  public async addUsers(req: Request, res: Response<string>): Promise<void> {
+    const { groupId, usersId } = req.body as { groupId: string; usersId: string[] };
+    await groupService.addUsers(groupId, usersId);
+    res.send(`Users ${usersId.join(', ')} added to group ${groupId}`);
   }
 }

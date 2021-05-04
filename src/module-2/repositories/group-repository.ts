@@ -1,5 +1,6 @@
 import { IEntity, IGenericCRUDRepository } from '../interfaces';
 import { Group } from '../models/group';
+import { TryCatch } from '../decorators';
 
 interface IPaginatedRepository<T extends IEntity> {
   getList(): Promise<T[]>;
@@ -22,7 +23,6 @@ export class GroupRepository implements IGroupRepository {
     return newGroup;
   }
 
-  //TODO Update method according to task
   public async delete(id: string): Promise<string> {
     const result = await Group.destroy({
       where: {
@@ -56,8 +56,13 @@ export class GroupRepository implements IGroupRepository {
 
   public async getList(): Promise<Group[]> {
     const groups = await Group.findAll();
-    console.log(groups);
     return groups;
+  }
+
+  public async addUsersToGroup(groupId: string, usersId: string[]): Promise<void> {
+    const currentGroup = await this.get(groupId);
+    const result = currentGroup.addUsers(usersId);
+    return result;
   }
 }
 

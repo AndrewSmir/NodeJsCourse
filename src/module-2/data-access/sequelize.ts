@@ -5,4 +5,4 @@ export const sequelize = new Sequelize(
   { logging: console.log },
 );
 
-//sequelize.sync({ force: true }).then(() => console.log('ok'));
+sequelize.sync({ alter: true }).then(() => console.log('ok'));
