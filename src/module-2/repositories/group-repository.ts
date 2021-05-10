@@ -1,6 +1,6 @@
+import { sequelize } from '../data-access/sequelize';
 import { IEntity, IGenericCRUDRepository } from '../interfaces';
 import { Group } from '../models/group';
-import { TryCatch } from '../decorators';
 
 interface IPaginatedRepository<T extends IEntity> {
   getList(): Promise<T[]>;
@@ -60,9 +60,12 @@ export class GroupRepository implements IGroupRepository {
   }
 
   public async addUsersToGroup(groupId: string, usersId: string[]): Promise<void> {
-    const currentGroup = await this.get(groupId);
-    const result = currentGroup.addUsers(usersId);
-    return result;
+    const response = await sequelize.transaction(async () => {
+      const currentGroup = await this.get(groupId);
+      const result = currentGroup.addUsers(usersId);
+      return result;
+    });
+    return response;
   }
 }
 

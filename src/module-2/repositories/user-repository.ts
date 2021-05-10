@@ -1,6 +1,5 @@
 import { IEntity, IGenericCRUDRepository } from '../interfaces';
 import { User } from '../models/user';
-import { TryCatch } from '../decorators';
 
 interface IPaginatedRepository<T extends IEntity> {
   getList(limit: number): Promise<T[]>;
